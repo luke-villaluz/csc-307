@@ -1,7 +1,12 @@
 // src/Form.jsx
 import React, { useState } from "react";
 
-function Form() {
+function Form(props) {
+  function submitForm() {
+    props.handleSubmit(person);
+    setPerson({ name: "", job: "" });
+  }
+
   const [person, setPerson] = useState({
     name: "",
     job: ""
@@ -9,9 +14,9 @@ function Form() {
 
   function handleChange(event) {
     const { name, value } = event.target;
-    if (name === "job")
+    if (name === "job") {
       setPerson({ name: person["name"], job: value });
-    else setPerson({ name: value, job: person["job"] });
+    } else setPerson({ name: value, job: person["job"] });
   }
 
   return (
