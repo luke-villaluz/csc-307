@@ -7,5 +7,10 @@
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "type": "module",
+  "description": "",
+  "dependencies": {
+    "backend.js": "file:",
+    "express": "^4.21.0"
+  }
 }
