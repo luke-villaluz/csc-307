@@ -34,6 +34,8 @@ const users = {
   ]
 };
 
+// find functions
+
 const findUserByName = (name) => {
   return users["users_list"].filter(
     (user) => user["name"] === name
@@ -43,27 +45,27 @@ const findUserByName = (name) => {
 const findUserById = (id) =>
   users["users_list"].find((user) => user["id"] === id);
 
+// add user function
+
 const addUser = (user) => {
   users["users_list"].push(user);
   return user;
 };
 
+// app functions
+
 app.use(express.json());
 
-app.post("/users", (req, res) => {
-  const userToAdd = req.body;
-  addUser(userToAdd);
-  res.send();
+app.listen(port, () => {
+  console.log(
+    `Example app listening at http://localhost:${port}`
+  );
 });
 
-app.get("/users/:id", (req, res) => {
-  const id = req.params["id"]; //or req.params.id
-  let result = findUserById(id);
-  if (result === undefined) {
-    res.status(404).send("Resource not found.");
-  } else {
-    res.send(result);
-  }
+// get functions
+
+app.get("/", (req, res) => {
+  res.send("Hello World!");
 });
 
 app.get("/users", (req, res) => {
@@ -77,13 +79,21 @@ app.get("/users", (req, res) => {
   }
 });
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
+app.get("/users/:id", (req, res) => {
+  const id = req.params["id"]; //or req.params.id
+  let result = findUserById(id);
+  if (result === undefined) {
+    res.status(404).send("Resource not found.");
+  } else {
+    res.send(result);
+  }
 });
 
-app.listen(port, () => {
-  console.log(
-    `Example app listening at http://localhost:${port}`
-  );
-});
 
+// post functions here
+
+app.post("/users", (req, res) => {
+  const userToAdd = req.body;
+  addUser(userToAdd);
+  res.send();
+});
