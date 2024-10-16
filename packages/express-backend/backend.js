@@ -1,5 +1,10 @@
 // backend.js
 import express from "express";
+import cors from "cors";
+
+// app functions
+app.use(cors());
+app.use(express.json());
 
 const app = express();
 const port = 8000;
@@ -65,9 +70,6 @@ const deleteUserById = (id) => {
   }
   return false;
 };
-
-// app functions
-app.use(express.json());
 
 app.listen(port, () => {
   console.log(
