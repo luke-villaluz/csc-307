@@ -19,15 +19,22 @@ function MyApp() {
   }
 
   function postUser(person) {
-    const promise = fetch("Http://localhost:8000/users", {
+    return fetch("http://localhost:8000/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(person)
+    }).then((res) => {
+      // Check if the status is 201 before resolving the promise
+      if (res.status === 201) {
+        // res.json() returns another promise
+        return res.json(); // Return the response JSON if it's a success
+      } else {
+        // Reject the promise by throwing an error
+        throw new Error("Failed to create user"); // Throw an error if the status is not 201
+      }
     });
-  
-    return promise;
   }
 
   function updateList(person) {
