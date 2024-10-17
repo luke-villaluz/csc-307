@@ -39,7 +39,10 @@ function MyApp() {
 
   function updateList(person) {
     postUser(person)
-      .then(() => setCharacters([...characters, person]))
+      .then((newUser) => {
+        console.log('New user added:', newUser);
+        setCharacters([...characters, newUser]);
+      })
       .catch((error) => {
         console.log(error);
       });
@@ -47,16 +50,28 @@ function MyApp() {
   
   const [characters, setCharacters] = useState([]);
 
-  function updateList(person) {
-    setCharacters([...characters, person]);
+  function removeOneCharacter(id) {
+    console.log('Deleting user with id:', id);  // Log the id to check if it's correctly passed
+    
+    // Send a DELETE request to the backend to delete the user by ID
+    fetch(`http://localhost:8000/users/${id}`, {
+      method: 'DELETE'
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(`User with id ${id} deleted successfully`);
+          // If successful, update the frontend state to remove the user by ID
+          const updated = characters.filter((character) => character.id !== id);
+          setCharacters(updated);
+        } else {
+          console.log(`Failed to delete: received status ${res.status}`);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
   
-  function removeOneCharacter(index) {
-    const updated = characters.filter((character, i) => {
-      return i !== index;
-    });
-    setCharacters(updated);
-  }
 
   return (
     <div className="container">

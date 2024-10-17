@@ -2,12 +2,14 @@
 import express from "express";
 import cors from "cors";
 
+
+const app = express();
+const port = 8000;
+
 // app functions
 app.use(cors());
 app.use(express.json());
 
-const app = express();
-const port = 8000;
 
 const users = {
   users_list: [
@@ -117,7 +119,10 @@ app.get("/users/:id", (req, res) => {
 // post functions here
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
-  addUser(userToAdd);
+  const newUser = { id: Math.random().toString(36).substr(2, 9), ...userToAdd };
+  console.log('New user created:', newUser);
+  addUser(newUser);
+  console.log('Updated users list:', users["users_list"]);
   res.status(201).json(newUser);
 });
 
@@ -125,6 +130,8 @@ app.post("/users", (req, res) => {
 app.delete("/users/:id", (req, res) => {
   const id = req.params["id"];
   const userExists = findUserById(id) !== undefined;
+
+  console.log(`Received delete request for user with id: ${id}`);  // Log the ID
 
   if (userExists) {
     deleteUserById(id);
