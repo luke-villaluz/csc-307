@@ -40,10 +40,16 @@ function findUserByJob(job) {
   return userModel.find({ job: job });
 }
 
+//added delete functionality with built in mongoose method
+function deleteUserById(id) {
+    return userModel.findByIdAndDelete(id);
+  }
+
 export default {
   addUser,
   getUsers,
   findUserById,
   findUserByName,
   findUserByJob,
+  deleteUserById,
 };
