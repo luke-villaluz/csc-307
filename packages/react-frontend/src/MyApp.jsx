@@ -61,7 +61,7 @@ function MyApp() {
         if (res.status === 200) {
           console.log(`User with id ${id} deleted successfully`);
           // If successful, update the frontend state to remove the user by ID
-          const updated = characters.filter((character) => character.id !== id);
+          const updated = characters.filter((character) => character._id !== id);
           setCharacters(updated);
         } else {
           console.log(`Failed to delete: received status ${res.status}`);
